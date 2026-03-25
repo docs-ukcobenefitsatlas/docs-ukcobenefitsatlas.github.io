@@ -2,6 +2,7 @@
 	import './page.css';
 	import { onMount } from 'svelte';
 	import * as d3 from 'd3';
+	import MarkdownDrawer from '$lib/components/MarkdownDrawer.svelte';
 	import eventsCsv from '$lib/assets/events.csv?raw';
 
 	type EventItem = {
@@ -11,6 +12,8 @@
 		date: string;
 		dateObject: Date;
 		category: string;
+		code: string;
+		file: string;
 		description: string;
 		people: string;
 		formattedDate: string;
@@ -26,6 +29,7 @@
 
 	type LegendItem = {
 		category: string;
+		label: string;
 		color: string;
 	};
 
@@ -34,12 +38,36 @@
 		text: string;
 	};
 
-	const categoryPalette = ['#1d4ed8', '#0f766e', '#b45309', '#7c3aed', '#be123c', '#4d7c0f', '#0891b2'];
+	type CategoryColumn = {
+		key: string;
+		label: string;
+		color: string;
+	};
+
+	const categoryColumns: CategoryColumn[] = [
+		{ key: 'Atlas Discourse', label: 'Atlas discourse', color: '#1d4ed8' },
+		{ key: 'Design Workshop', label: 'Workshop', color: '#0f766e' },
+		{ key: 'Prototype & Implementation', label: 'Prototype', color: '#b45309' },
+		{ key: 'Stakeholder Engagement', label: 'Stakeholder engagement', color: '#7c3aed' }
+	];
 
 	let scrollY = $state(0);
+	let headerElement: HTMLElement | null = $state(null);
 	let timelineContainer: HTMLDivElement | null = $state(null);
 	let timelineSvg: SVGSVGElement | null = $state(null);
 	let chartWidth = $state(0);
+	let drawerTop = $state(96);
+	let activeEvent: EventItem | null = $state(null);
+	let targetCode = $state('');
+
+	function scrollToCode(code: string) {
+		if (!code || !timelineSvg) return;
+		const el = timelineSvg.querySelector(`[data-code="${CSS.escape(code)}"]`);
+		if (!el) return;
+		el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		const event = events.find((e) => e.code === code);
+		if (event?.file) activeEvent = event;
+	}
 
 	function parseCsv(text: string): string[][] {
 		const rows: string[][] = [];
@@ -93,6 +121,11 @@
 	}
 
 	function createDate(dateString: string): Date {
+		// Support both DD/MM/YYYY and YYYY-MM-DD formats
+		if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
+			const [day, month, year] = dateString.split('/');
+			return new Date(`${year}-${month}-${day}T00:00:00`);
+		}
 		return new Date(`${dateString}T00:00:00`);
 	}
 
@@ -123,6 +156,8 @@
 				date: record.date ?? '',
 				dateObject,
 				category,
+				code: record.code ?? '',
+				file: record.file ?? '',
 				description: record.description ?? '',
 				people: record.people ?? '',
 				formattedDate: formatDate(dateObject),
@@ -138,15 +173,15 @@
 			return dateDelta !== 0 ? dateDelta : Number(first.id) - Number(second.id);
 		});
 
-	const categories = [...new Set(events.map((event) => event.category).filter(Boolean))];
 	const categoryColor = d3
 		.scaleOrdinal()
-		.domain(categories)
-		.range(categories.map((_, index) => categoryPalette[index % categoryPalette.length]));
+		.domain(categoryColumns.map((column) => column.key))
+		.range(categoryColumns.map((column) => column.color));
 
-	const legendItems: LegendItem[] = categories.map((category) => ({
-		category,
-		color: categoryColor(category)
+	const legendItems: LegendItem[] = categoryColumns.map((column) => ({
+		category: column.key,
+		label: column.label,
+		color: column.color
 	}));
 
 	const startDate = events[0]?.dateObject;
@@ -161,14 +196,33 @@
 
 	function buildEventCard(documentRef: Document, event: EventItem, cardWidth: number): HTMLDivElement {
 		const card = documentRef.createElement('div');
-		card.className = 'event-card';
+		card.className = event.file ? 'event-card has-file' : 'event-card';
 		card.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
 		card.style.width = `${cardWidth}px`;
+		if (event.file) {
+			card.title = event.file;
+			card.addEventListener('click', () => {
+				activeEvent = event;
+			});
+		}
 
-		for (const row of buildEventRows(event)) {
+		for (const [index, row] of buildEventRows(event).entries()) {
 			const element = documentRef.createElement('div');
 			element.className = row.className;
-			element.textContent = row.text;
+			if (index === 0 && event.file) {
+				const text = documentRef.createElement('span');
+				text.className = 'event-headline-text';
+				text.textContent = row.text;
+
+				const icon = documentRef.createElement('span');
+				icon.className = 'event-file-icon';
+				icon.setAttribute('aria-hidden', 'true');
+
+				element.appendChild(text);
+				element.appendChild(icon);
+			} else {
+				element.textContent = row.text;
+			}
 			card.appendChild(element);
 		}
 
@@ -206,13 +260,18 @@
 		const dateColumnWidth = compact ? 68 : narrow ? 84 : 120;
 		const dotX = compact ? 86 : narrow ? 104 : 144;
 		const squareSize = compact ? 8 : 10;
-		const squareX = dotX + (compact ? 11 : 13);
-		const textX = squareX + squareSize + (compact ? 10 : 14);
+		const squareGap = compact ? 3 : 4;
+		const markerGridX = dotX + (compact ? 11 : 13);
+		const markerGridWidth = categoryColumns.length * squareSize + (categoryColumns.length - 1) * squareGap;
+		const textX = markerGridX + markerGridWidth + (compact ? 10 : 14);
 		const minCardGap = compact ? 3 : 4;
 		const minTemporalGap = compact ? 1 : 2;
 		const availableTextWidth = Math.max(120, width - textX - 12);
+		// const cardWidth = Math.min(availableTextWidth, compact ? 220 : narrow ? 300 : 360);
+		const cardWidth = Math.min(availableTextWidth, compact ? 350 : narrow ? 400 : 450);
+
 		const dotOffsetFromTop = compact ? 7 : 8;
-		const eventHeights = measureEventHeights(availableTextWidth);
+		const eventHeights = measureEventHeights(cardWidth);
 		const datedEvents = events.map((event, index) => ({
 			...event,
 			cardHeight: eventHeights[index] || 0
@@ -274,6 +333,7 @@
 			.data(positionedEvents)
 			.join('g')
 			.attr('class', 'timeline-entry')
+			.attr('data-code', (event: PositionedEvent) => event.code)
 			.attr('transform', (event: PositionedEvent) => `translate(0, ${event.dotY})`);
 
 		eventGroups
@@ -292,49 +352,99 @@
 			.attr('cy', 0)
 			.attr('r', compact ? 3.5 : 4);
 
-		eventGroups
-			.append('rect')
-			.attr('class', 'timeline-square')
-			.attr('x', squareX)
-			.attr('y', -(squareSize / 2))
-			.attr('width', squareSize)
-			.attr('height', squareSize)
-			.attr('fill', (event: PositionedEvent) => categoryColor(event.category) ?? '#111');
+		const markerGroups = eventGroups
+			.append('g')
+			.attr('class', 'timeline-marker-grid')
+			.attr('transform', `translate(${markerGridX}, ${-(squareSize / 2)})`);
+
+		markerGroups.each(function (this: SVGGElement, event: PositionedEvent) {
+			const group = d3.select(this);
+
+			group
+				.selectAll('rect.timeline-square')
+				.data(categoryColumns)
+				.join('rect')
+				.attr('class', 'timeline-square')
+				.attr('x', (_: CategoryColumn, index: number) => index * (squareSize + squareGap))
+				.attr('y', 0)
+				.attr('width', squareSize)
+				.attr('height', squareSize)
+				.attr('fill', (column: CategoryColumn) =>
+					column.key === event.category ? categoryColor(column.key) : '#fff'
+				)
+				.attr('stroke', (column: CategoryColumn) =>
+					column.key === event.category ? categoryColor(column.key) : '#d9d9d9'
+				);
+		});
 
 		const cardGroups = eventGroups
 			.append('foreignObject')
 			.attr('class', 'event-foreign-object')
 			.attr('x', textX)
 			.attr('y', (event: PositionedEvent) => event.top - event.dotY)
-			.attr('width', availableTextWidth)
+			.attr('width', cardWidth)
 			.attr('height', (event: PositionedEvent) => event.cardHeight);
 
 		cardGroups.each(function (this: SVGForeignObjectElement, event: PositionedEvent) {
 			const node = this as SVGForeignObjectElement;
 			node.replaceChildren();
-			node.appendChild(buildEventCard(node.ownerDocument, event, availableTextWidth));
+			node.appendChild(buildEventCard(node.ownerDocument, event, cardWidth));
 		});
+
+		if (targetCode) {
+			const code = targetCode;
+			requestAnimationFrame(() => scrollToCode(code));
+		}
 	}
 
 	onMount(() => {
-		if (!timelineContainer) {
-			return;
+		const observers: ResizeObserver[] = [];
+
+		if (timelineContainer) {
+			const timelineObserver = new ResizeObserver((entries) => {
+				const entry = entries[0];
+				if (!entry) {
+					return;
+				}
+
+				chartWidth = Math.round(entry.contentRect.width);
+			});
+
+			timelineObserver.observe(timelineContainer);
+			chartWidth = Math.round(timelineContainer.clientWidth);
+			observers.push(timelineObserver);
 		}
 
-		const resizeObserver = new ResizeObserver((entries) => {
-			const entry = entries[0];
-			if (!entry) {
-				return;
-			}
+		const initialHash = window.location.hash.slice(1);
+		if (initialHash) targetCode = initialHash;
 
-			chartWidth = Math.round(entry.contentRect.width);
-		});
+		const handleHashChange = () => {
+			targetCode = window.location.hash.slice(1);
+			requestAnimationFrame(() => scrollToCode(targetCode));
+		};
+		window.addEventListener('hashchange', handleHashChange);
 
-		resizeObserver.observe(timelineContainer);
-		chartWidth = Math.round(timelineContainer.clientWidth);
+		if (headerElement) {
+			/*
+			const headerObserver = new ResizeObserver(() => {
+				if (!headerElement) {
+					return;
+				}
+
+				drawerTop = Math.ceil(headerElement.getBoundingClientRect().height) + 12;
+			});
+
+			headerObserver.observe(headerElement);
+			drawerTop = Math.ceil(headerElement.getBoundingClientRect().height) + 12;
+			observers.push(headerObserver);
+			*/
+		}
 
 		return () => {
-			resizeObserver.disconnect();
+			for (const observer of observers) {
+				observer.disconnect();
+			}
+			window.removeEventListener('hashchange', handleHashChange);
 		};
 	});
 
@@ -350,18 +460,18 @@
 
 <svelte:head>
 	<title>Project Timeline</title>
-	<meta name="description" content="A D3-driven project timeline generated from events.csv." />
+	<meta name="description" content="Project supplementary material." />
 </svelte:head>
 
 <svelte:window bind:scrollY />
 
 <div class="page">
-	<header class:compact={scrollY > 72} class="site-header">
+	<header bind:this={headerElement} class:compact={scrollY > 72} class="site-header">
 		<div class="header-full">
 			<div class="header-copy">
 				<p class="header-label">Project timeline</p>
 				<h2>The UK Co-Benefits Atlas: Behind the Scene</h2>
-				<p class="header-text">This is the supplementary material for VIS submission #xxxx.</p>
+				<p class="header-text">This is the supplementary material for VIS submission #1678. The timeline records four strands of design related activities for the UK Co-Benefits Atlas to contextualize rationales of design decisions. It does not include discussions for writing the paper.</p>
 			</div>
 
 			<div class="header-stats">
@@ -369,10 +479,10 @@
 					<span class="stat-label">Entries</span>
 					<strong>{events.length}</strong>
 				</div>
-				<div class="stat">
+				<!-- <div class="stat">
 					<span class="stat-label">Categories</span>
-					<strong>{categories.length}</strong>
-				</div>
+					<strong>{legendItems.length}</strong>
+				</div> -->
 				<div class="stat">
 					<span class="stat-label">Duration</span>
 					<strong>{startDate ? formatDate(startDate) : ''} to {endDate ? formatDate(endDate) : ''}</strong>
@@ -392,13 +502,24 @@
 			{#each legendItems as item}
 				<div class="legend-item">
 					<span class="legend-swatch" style={`background-color: ${item.color}`}></span>
-					<span>{item.category}</span>
+					<span>{item.label}</span>
 				</div>
 			{/each}
 		</section>
 	{/if}
 
-	<div class="timeline-canvas" bind:this={timelineContainer}>
-		<svg bind:this={timelineSvg} class="timeline-svg" aria-label="Project events timeline"></svg>
+	<div class:has-drawer={Boolean(activeEvent)} class="timeline-layout" style={`--drawer-top: ${drawerTop}px;`}>
+		<div class="timeline-canvas" bind:this={timelineContainer}>
+			<svg bind:this={timelineSvg} class="timeline-svg" aria-label="Project events timeline"></svg>
+		</div>
+
+		<MarkdownDrawer
+			open={Boolean(activeEvent)}
+			fileKey={activeEvent?.file ?? ''}
+			title={activeEvent?.displayHeadline ?? ''}
+			onClose={() => {
+				activeEvent = null;
+			}}
+		/>
 	</div>
 </div>
