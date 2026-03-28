@@ -66,7 +66,7 @@
 		if (!el) return;
 		el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 		const event = events.find((e) => e.code === code);
-		if (event?.file) activeEvent = event;
+		activeEvent = event?.file ? event : null;
 	}
 
 	function parseCsv(text: string): string[][] {
@@ -455,6 +455,15 @@
 		}
 
 		renderTimeline();
+	});
+
+	$effect(() => {
+		if (!timelineSvg) return;
+		timelineSvg.querySelectorAll('.event-card.is-active').forEach((el) => el.classList.remove('is-active'));
+		if (activeEvent) {
+			const group = timelineSvg.querySelector(`[data-code="${CSS.escape(activeEvent.code)}"]`);
+			group?.querySelector('.event-card')?.classList.add('is-active');
+		}
 	});
 </script>
 

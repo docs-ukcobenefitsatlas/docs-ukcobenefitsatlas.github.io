@@ -207,6 +207,11 @@
 	box-shadow: 0 1px 6px rgba(17, 17, 17, 0.08);
 }
 
+.event-card.is-active .event-headline-text,
+.event-card.is-active .event-description {
+	font-weight: 600;
+}
+
 .timeline-svg .event-headline,
 .event-card .event-headline {
 	display: flex;
