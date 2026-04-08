@@ -33,6 +33,7 @@
 		top: number;
 		dotY: number;
 		cardHeight: number;
+		showDate: boolean;
 	};
 
 	type LegendItem = {
@@ -274,50 +275,78 @@
 		const markerGridWidth = categoryColumns.length * squareSize + (categoryColumns.length - 1) * squareGap;
 		const textX = markerGridX + markerGridWidth + (compact ? 10 : 14);
 		const minCardGap = compact ? 3 : 4;
-		const minTemporalGap = compact ? 1 : 2;
+		const temporalCompression = compact ? 0.82 : narrow ? 0.78 : 0.74;
 		const availableTextWidth = Math.max(120, width - textX - 12);
 		// const cardWidth = Math.min(availableTextWidth, compact ? 220 : narrow ? 300 : 360);
 		const cardWidth = Math.min(availableTextWidth, compact ? 350 : narrow ? 400 : 450);
 
 		const dotOffsetFromTop = compact ? 7 : 8;
+		const minSameDayGap = 1;
 		const eventHeights = measureEventHeights(cardWidth);
 		const datedEvents = events.map((event, index) => ({
 			...event,
 			cardHeight: eventHeights[index] || 0
 		}));
-		const timeExtent = d3.extent(datedEvents, (event: PositionedEvent) => event.dateObject) as [Date, Date];
-		const positiveGapMs = datedEvents
-			.slice(1)
-			.map((event, index) => event.dateObject.getTime() - datedEvents[index].dateObject.getTime())
-			.filter((gapMs) => gapMs > 0);
+		const dayGroups = Array.from(
+			datedEvents.reduce((groups, event) => {
+				const dateMs = event.dateObject.getTime();
+				const group = groups.get(dateMs);
+				if (group) {
+					group.push(event);
+				} else {
+					groups.set(dateMs, [event]);
+				}
+				return groups;
+			}, new Map<number, typeof datedEvents>())
+		).map(([dateMs, dayEvents]) => ({
+			dateMs,
+			events: dayEvents,
+			stackHeight:
+				dayEvents.reduce((total, event) => total + event.cardHeight, 0) +
+				Math.max(0, dayEvents.length - 1) * minSameDayGap
+		}));
+
+		const dayPairs = dayGroups
+			.slice(0, -1)
+			.map((day, index) => ({
+				day,
+				nextDay: dayGroups[index + 1],
+				gapMs: dayGroups[index + 1].dateMs - day.dateMs
+			}))
+			.filter((pair) => pair.gapMs > 0);
 		const smallestPositiveGapMs =
-			positiveGapMs.length > 0 ? Math.min(...positiveGapMs) : 86400000;
-		const totalTimeSpanMs = Math.max(0, timeExtent[1].getTime() - timeExtent[0].getTime());
-		const temporalRangeHeight =
-			positiveGapMs.length > 0 ? (totalTimeSpanMs / smallestPositiveGapMs) * minTemporalGap : 0;
+			dayPairs.length > 0 ? Math.min(...dayPairs.map((pair) => pair.gapMs)) : 86400000;
+		const closestDayPairs = dayPairs.filter((pair) => pair.gapMs === smallestPositiveGapMs);
+		const baseDayGapPx = Math.max(
+			minCardGap,
+			...closestDayPairs.map((pair) => pair.day.stackHeight + minCardGap)
+		);
+		const scaledDayGapPx = Math.max(minCardGap, baseDayGapPx * temporalCompression);
+
 		const topPadding = dotOffsetFromTop + minCardGap;
 		const bottomPadding = minCardGap;
-		const timeScale = d3
-			.scaleTime()
-			.domain(timeExtent)
-			.range([0, temporalRangeHeight]);
+		const timelineStartMs = dayGroups[0]?.dateMs ?? 0;
+		let previousDayBottom = topPadding - minCardGap;
+		const positionedEvents: PositionedEvent[] = [];
 
-		let accumulatedCardHeight = 0;
+		dayGroups.forEach((day, dayIndex) => {
+			const scaledTop =
+				topPadding + ((day.dateMs - timelineStartMs) / smallestPositiveGapMs) * scaledDayGapPx;
+			const dayTop =
+				dayIndex === 0 ? scaledTop : Math.max(scaledTop, previousDayBottom + minCardGap);
 
-		const positionedEvents: PositionedEvent[] = datedEvents.map((event, index) => {
-			const top = topPadding + accumulatedCardHeight + timeScale(event.dateObject);
-			const positionedEvent = {
-				...event,
-				top,
-				dotY: top + dotOffsetFromTop
-			};
+			let eventTop = dayTop;
+			day.events.forEach((event, eventIndex) => {
+				positionedEvents.push({
+					...event,
+					top: eventTop,
+					dotY: eventTop + dotOffsetFromTop,
+					showDate: eventIndex === 0
+				});
+				eventTop += event.cardHeight + minSameDayGap;
+			});
 
-			accumulatedCardHeight += event.cardHeight;
-			if (index < datedEvents.length - 1) {
-				accumulatedCardHeight += minCardGap;
-			}
-
-			return positionedEvent;
+			previousDayBottom = dayTop + day.stackHeight;
 		});
 
 		const finalHeight = Math.ceil(
@@ -346,6 +375,7 @@
 			.attr('transform', (event: PositionedEvent) => `translate(0, ${event.dotY})`);
 
 		eventGroups
+			.filter((event: PositionedEvent) => event.showDate)
 			.append('text')
 			.attr('class', 'timeline-date')
 			.attr('x', dateColumnWidth)
@@ -355,6 +385,7 @@
 			.text((event: PositionedEvent) => event.formattedDate);
 
 		eventGroups
+			.filter((event: PositionedEvent) => event.showDate)
 			.append('circle')
 			.attr('class', 'timeline-dot')
 			.attr('cx', dotX)

@@ -183,11 +183,11 @@
 .event-card {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
+	/* gap: 2px; */
 	background: #fff;
 	box-sizing: border-box;
 	border-radius: 6px;
-	padding: 3px 6px;
+	/* padding: 3px 6px; */
 	transition:
 		box-shadow 140ms ease,
 		outline-color 140ms ease;
