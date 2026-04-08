@@ -230,27 +230,10 @@
 }
 
 .event-file-icon {
-	position: relative;
 	flex: 0 0 auto;
-	width: 11px;
-	height: 13px;
-	border: 1px solid #9ca3af;
-	border-radius: 2px;
-	box-sizing: border-box;
-	background: #fff;
-}
-
-.event-file-icon::before {
-	content: '';
-	position: absolute;
-	top: -1px;
-	right: -1px;
-	width: 5px;
-	height: 5px;
-	background: #fff;
-	border-top: 1px solid #9ca3af;
-	border-right: 1px solid #9ca3af;
-	transform: skew(-12deg, -12deg);
+	font-size: 11px;
+	color: #9ca3af;
+	white-space: nowrap;
 }
 
 .timeline-svg .event-description,

@@ -5,6 +5,14 @@
 	import MarkdownDrawer from '$lib/components/MarkdownDrawer.svelte';
 	import eventsCsv from '$lib/assets/events.csv?raw';
 
+	const markdownModules = import.meta.glob('../lib/assets/*.md', { query: '?raw', import: 'default' });
+	const availableFileKeys = new Set(
+		Object.keys(markdownModules).map((path) => {
+			const match = path.match(/\/([^/]+)\.md$/);
+			return match ? match[1] : '';
+		}).filter(Boolean)
+	);
+
 	type EventItem = {
 		id: string;
 		title: string;
@@ -66,7 +74,7 @@
 		if (!el) return;
 		el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 		const event = events.find((e) => e.code === code);
-		activeEvent = event?.file ? event : null;
+		activeEvent = (event?.file && availableFileKeys.has(event.file)) ? event : null;
 	}
 
 	function parseCsv(text: string): string[][] {
@@ -195,11 +203,12 @@
 	}
 
 	function buildEventCard(documentRef: Document, event: EventItem, cardWidth: number): HTMLDivElement {
+		const hasFile = Boolean(event.file) && availableFileKeys.has(event.file);
 		const card = documentRef.createElement('div');
-		card.className = event.file ? 'event-card has-file' : 'event-card';
+		card.className = hasFile ? 'event-card has-file' : 'event-card';
 		card.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
 		card.style.width = `${cardWidth}px`;
-		if (event.file) {
+		if (hasFile) {
 			card.title = event.file;
 			card.addEventListener('click', () => {
 				activeEvent = event;
@@ -209,14 +218,14 @@
 		for (const [index, row] of buildEventRows(event).entries()) {
 			const element = documentRef.createElement('div');
 			element.className = row.className;
-			if (index === 0 && event.file) {
+			if (index === 0 && hasFile) {
 				const text = documentRef.createElement('span');
 				text.className = 'event-headline-text';
 				text.textContent = row.text;
 
 				const icon = documentRef.createElement('span');
 				icon.className = 'event-file-icon';
-				icon.setAttribute('aria-hidden', 'true');
+				icon.textContent = '(view more)';
 
 				element.appendChild(text);
 				element.appendChild(icon);

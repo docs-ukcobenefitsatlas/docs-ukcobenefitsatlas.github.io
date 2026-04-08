@@ -1,79 +1,79 @@
-ID,Title,Tag,Date,Category,Code,File,Description,People
-1,Regular checkin,Project Meeting,16/10/2024,Atlas Discourse,M1,,"Google doc, workshop goals and overall activities planning",
-5,,Project Meeting,07/11/2024,Atlas Discourse,M2,,"Data roles, level of engagement",
-8,,Project Meeting,28/11/2024,Atlas Discourse,M3,,ECCI: Scenarios might change (not 5 but 3); VIS: 1/summarising the data roles; 2/hand sketches; 3/future activities,
-9,,Project Meeting,05/12/2024,Atlas Discourse,M4,,Plans for workshops,
-11,,Project Meeting,17/01/2025,Atlas Discourse,M5,,"Workshop summary between Ben, Uta, and Jinrui",
-12,,Project Meeting,30/01/2025,Atlas Discourse,M6,,,
-14,,Project Meeting,06/02/2025,Atlas Discourse,M7,,,
-16,,Project Meeting,13/02/2025,Atlas Discourse,M8,,Discuss badges,
-19,,Project Meeting,27/02/2025,Atlas Discourse,M9,,,
-21,,Project Meeting,06/03/2025,Atlas Discourse,M10,,Townhall: workshop planning,
-23,,Project Meeting,13/03/2025,Atlas Discourse,M11,,,
-27,,Project Meeting,03/04/2025,Atlas Discourse,M12,,,
-36,,Project Meeting,01/05/2025,Atlas Discourse,M13,,,
-38,,Project Meeting,15/05/2025,Atlas Discourse,M14,,"Townhall: data stories, google maillist",
-39,,Project Meeting,29/05/2025,Atlas Discourse,M15,,,
-40,,Project Meeting,12/06/2025,Atlas Discourse,M16,,,
-41,,Project Meeting,26/06/2025,Atlas Discourse,M17,,,
-51,,Project Meeting,30/06/2025,Atlas Discourse,M18,,,
-42,,Project Meeting,10/07/2025,Atlas Discourse,M19,,,
-43,,Project Meeting,24/07/2025,Atlas Discourse,M20,,,
-74,,Project Meeting,31/07/2025,Atlas Discourse,M21,,,
-75,,Project Meeting,15/08/2025,Atlas Discourse,M22,,Stakeholder engagement feedback,
-2,W1: Understanding project goals,Stage1: Understand,23/10/2024,Design Workshop,W1,W1,,"Vis expert 1, Vis expert 2, Vis expert 5, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1, External stakeholder 2  "
-3,W2: Understanding stakeholders,Stage1: Understand,24/10/2024,Design Workshop,W2,W2,,"Vis expert 1, Vis expert 2, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1, External stakeholder 2"
-4,W3: Data sketching for pages,Stage2: Ideate & Make,06/11/2024,Design Workshop,W3,W3,,"Vis expert 1, Vis expert 2, Vis expert 5, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1"
-10,W4: Visualization opportunities,Stage2: Ideate & Make,13/01/2025,Design Workshop,W4,W4,,"Vis expert 1, Vis expert 2, Vis expert 5, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1, External stakeholder 2  "
-13,W5: Enhance transparency,Stage2: Ideate & Make,31/01/2025,Design Workshop,W5,W5,,"Vis expert 1, Vis expert 2, Vis expert 3, Vis expert 5, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1"
-25,W6: Entry points and visual consistency,Stage2: Ideate & Make,19/03/2025,Design Workshop,W6,W6,,"Vis expert 1, Vis expert 3, Domain expert 2, Domain expert 3"
-30,W7: Page annotations,Stage3: Reflect,16/04/2025,Design Workshop,W7,W7,,"Vis expert 1, Vis expert 2, Vis expert 3, Vis expert 5, Domain expert 1, Domain expert 2, Domain expert 3, External stakeholder 1"
-32,W8: Iterating data mappings,Stage3: Reflect,23/04/2025,Design Workshop,W8,W8,,"Vis expert 1, Vis expert 2, Vis expert 3, Vis expert 4, Domain expert 1, Domain expert 2"
-6,Vis prototyping session I,Prototyping,15/11/2024,Prototype & Implementation,D1,V1,"Discuss roles, each designer start prototyping",
-7,Vis prototyping session II,Prototyping,22/11/2024,Prototype & Implementation,D2,V2,landing pages => scenario page => map page (starting point),
-15,,Design Sync,11/02/2025,Prototype & Implementation,D3,,,
-17,,Design Sync,18/02/2025,Prototype & Implementation,D4,,alexis shared github,
-18,,Design Sync,25/02/2025,Prototype & Implementation,D5,,,
-20,,Design Sync,04/03/2025,Prototype & Implementation,D6,,,
-22,,Design Sync,11/03/2025,Prototype & Implementation,D7,,,
-24,,Design Sync,18/03/2025,Prototype & Implementation,D8,,,
-26,,Design Sync,01/04/2025,Prototype & Implementation,D9,,,
-28,,Design Sync,08/04/2025,Prototype & Implementation,D10,,,
-29,,Design Sync,15/04/2025,Prototype & Implementation,D11,,,
-31,,Design Sync,22/04/2025,Prototype & Implementation,D12,,,
-33,,Design Sync,24/04/2025,Prototype & Implementation,D13,,Design meeting,
-34,,Design Sync,24/04/2025,Prototype & Implementation,D14,,,
-44,,Design Sync,29/04/2025,Prototype & Implementation,D15,,,
-45,,Design Sync,13/05/2025,Prototype & Implementation,D16,,,
-46,,Design Sync,20/05/2025,Prototype & Implementation,D17,,,
-47,,Design Sync,27/05/2025,Prototype & Implementation,D18,,,
-48,,Design Sync,03/06/2025,Prototype & Implementation,D19,,,
-49,,Design Sync,10/06/2025,Prototype & Implementation,D20,,,
-50,,Design Sync,17/06/2025,Prototype & Implementation,D21,,,
-52,,Design Sync,01/07/2025,Prototype & Implementation,D22,,,
-53,,Design Sync,08/07/2025,Prototype & Implementation,D23,,,
-54,,Design Sync,22/07/2025,Prototype & Implementation,D24,,,
-55,,Design Sync,29/07/2025,Prototype & Implementation,D25,,,
-70,,Design Sync,05/08/2025,Prototype & Implementation,D26,,,
-76,,Design Sync,01/10/2025,Prototype & Implementation,D27,,,
-77,,Design Sync,15/10/2025,Prototype & Implementation,D28,,,
-78,,Design Sync,22/10/2025,Prototype & Implementation,D29,,,
-35,Internal soft launch - SCIS,Outreach Event,28/04/2025,Stakeholder Engagement,S1,,,
-37,Public launch I - ECCI,Outreach Event,06/05/2025,Stakeholder Engagement,S2,,,
-58,Individual #1,Stakeholder Onboarding,20/06/2025,Stakeholder Engagement,S3,,,
-59,Group #1,Stakeholder Onboarding,27/06/2025,Stakeholder Engagement,S4,,,
-56,Public launch II - Ashden,Outreach Event,03/07/2025,Stakeholder Engagement,S5,,,100 people
-60,Individual #2,Stakeholder Onboarding,04/07/2025,Stakeholder Engagement,S6,,,
-57,Public launch III - Datalab community,Outreach Event,17/07/2025,Stakeholder Engagement,S7,,,
-61,Individual #3,Stakeholder Onboarding,18/07/2025,Stakeholder Engagement,S8,,,
-62,Individual #4,Stakeholder Onboarding,18/07/2025,Stakeholder Engagement,S9,,,
-63,Individual #5,Stakeholder Onboarding,21/07/2025,Stakeholder Engagement,S10,,,
-64,Individual #6,Stakeholder Onboarding,24/07/2025,Stakeholder Engagement,S11,,,
-65,Individual #7,Stakeholder Onboarding,25/07/2025,Stakeholder Engagement,S12,,,
-66,Group #2,Stakeholder Onboarding,29/07/2025,Stakeholder Engagement,S13,,,
-67,Indiviual #8,Stakeholder Onboarding,29/07/2025,Stakeholder Engagement,S14,,,
-68,Indiviual #9,Stakeholder Onboarding,04/08/2025,Stakeholder Engagement,S15,,,
-69,Indiviual #10,Stakeholder Onboarding,05/08/2025,Stakeholder Engagement,S16,,,
-71,Indiviual #11,Stakeholder Onboarding,05/08/2025,Stakeholder Engagement,S17,,,
-72,Group #3,Stakeholder Onboarding,14/08/2025,Stakeholder Engagement,S18,,,
-73,Group #4,Stakeholder Onboarding,15/08/2025,Stakeholder Engagement,S19,,,
+ID,Title,Tag,Date,Category,Code,File,Description
+1,Regular checkin,Project Meeting,16/10/2024,Atlas Discourse,M1,M1,Started a list of potential workshop topics for design process planning.
+2,W1: Understanding project goals,Stage1: Understand,18/10/2024,Design Workshop,W1,W1,
+3,W2: Understanding stakeholders,Stage1: Understand,24/10/2024,Design Workshop,W2,W2,
+4,W3: Data sketching for pages,Stage2: Ideate & Make,06/11/2024,Design Workshop,W3,W3,
+5,,Project Meeting,07/11/2024,Atlas Discourse,M2,M2,We tried to use data roles to describe external stakeholders' Atlas usage.
+6,Vis prototyping session I,Prototyping,15/11/2024,Prototype & Implementation,D1,D1,"Discussed roles, each designer start prototyping in a 1.5 hour meeting."
+7,Vis prototyping session II,Prototyping,22/11/2024,Prototype & Implementation,D2,D2,Each designer finished their prototype sketches and discussed during meetings.
+8,,Project Meeting,28/11/2024,Atlas Discourse,M3,M3,Identified uncertainties in speculative tasks; discussed potential page prototypes.
+9,,Project Meeting,05/12/2024,Atlas Discourse,M4,,Workshop planning: prepare data samples for visualization sketching.
+10,W4: Visualization opportunities,Stage2: Ideate & Make,13/01/2025,Design Workshop,W4,W4,
+11,,Project Meeting,17/01/2025,Atlas Discourse,M5,,Summary of visualization sketching activity outputs.
+12,,Project Meeting,30/01/2025,Atlas Discourse,M6,M6,Discuss organizing data stories workshop.
+13,W5: Enhance transparency,Stage2: Ideate & Make,31/01/2025,Design Workshop,W5,W5,
+14,,Project Meeting,06/02/2025,Atlas Discourse,M7,,
+15,,Design Sync,11/02/2025,Prototype & Implementation,D3,,
+16,,Project Meeting,13/02/2025,Atlas Discourse,M8,,
+17,,Design Sync,18/02/2025,Prototype & Implementation,D4,,Initial codebase structure.
+18,,Design Sync,25/02/2025,Prototype & Implementation,D5,,
+19,,Project Meeting,27/02/2025,Atlas Discourse,M9,,
+20,,Design Sync,04/03/2025,Prototype & Implementation,D6,,
+21,,Project Meeting,06/03/2025,Atlas Discourse,M10,,Townhall: workshop planning
+22,,Design Sync,11/03/2025,Prototype & Implementation,D7,,
+23,,Project Meeting,13/03/2025,Atlas Discourse,M11,,
+24,,Design Sync,18/03/2025,Prototype & Implementation,D8,,
+25,W6: Entry points and visual consistency,Stage2: Ideate & Make,19/03/2025,Design Workshop,W6,W6,
+26,,Design Sync,01/04/2025,Prototype & Implementation,D9,,
+27,,Project Meeting,03/04/2025,Atlas Discourse,M12,,Major data change: remove five pathways towards Net Zero.
+28,,Design Sync,08/04/2025,Prototype & Implementation,D10,,
+29,,Design Sync,15/04/2025,Prototype & Implementation,D11,,Data units discussion
+30,W7: Page annotations,Stage3: Reflect,16/04/2025,Design Workshop,W7,W7,
+31,,Design Sync,22/04/2025,Prototype & Implementation,D12,,
+32,W8: Iterating data mappings,Stage3: Reflect,23/04/2025,Design Workshop,W8,W8,
+33,,Design Sync,24/04/2025,Prototype & Implementation,D13,,Design meeting
+34,,Design Sync,24/04/2025,Prototype & Implementation,D14,,
+35,Internal soft launch,Outreach Event,28/04/2025,Stakeholder Engagement,S1,,Internal launch within the smaller institution.
+44,,Design Sync,29/04/2025,Prototype & Implementation,D15,,Iterating cobens charts and location charts. 
+36,,Project Meeting,01/05/2025,Atlas Discourse,M13,,
+37,Public launch I,Outreach Event,06/05/2025,Stakeholder Engagement,S2,,Local public launch event attended by academics and professionals.
+45,,Design Sync,13/05/2025,Prototype & Implementation,D16,,
+38,,Project Meeting,15/05/2025,Atlas Discourse,M14,,Discussed the necessity to create mailing lists and build communities.
+46,,Design Sync,20/05/2025,Prototype & Implementation,D17,,
+47,,Design Sync,27/05/2025,Prototype & Implementation,D18,,
+39,,Project Meeting,29/05/2025,Atlas Discourse,M15,,
+48,,Design Sync,03/06/2025,Prototype & Implementation,D19,D19,Vis designers annotated on implemented pages.
+49,,Design Sync,10/06/2025,Prototype & Implementation,D20,,
+40,,Project Meeting,12/06/2025,Atlas Discourse,M16,,
+50,,Design Sync,17/06/2025,Prototype & Implementation,D21,,
+58,Individual #1,Stakeholder Onboarding,20/06/2025,Stakeholder Engagement,S3,,
+41,,Project Meeting,26/06/2025,Atlas Discourse,M17,,
+59,Group #1,Stakeholder Onboarding,27/06/2025,Stakeholder Engagement,S4,,
+51,,Project Meeting,30/06/2025,Atlas Discourse,M18,,
+52,,Design Sync,01/07/2025,Prototype & Implementation,D22,,
+56,Public launch II,Outreach Event,03/07/2025,Stakeholder Engagement,S5,,Around 100 people from climate work and different local government attended.
+60,Individual #2,Stakeholder Onboarding,04/07/2025,Stakeholder Engagement,S6,,
+53,,Design Sync,08/07/2025,Prototype & Implementation,D23,,
+42,,Project Meeting,10/07/2025,Atlas Discourse,M19,,
+57,Public launch III - Datalab community,Outreach Event,17/07/2025,Stakeholder Engagement,S7,,Around 50 people from local data and climate change communities attended.
+61,Individual #3,Stakeholder Onboarding,18/07/2025,Stakeholder Engagement,S8,,
+62,Individual #4,Stakeholder Onboarding,18/07/2025,Stakeholder Engagement,S9,,
+63,Individual #5,Stakeholder Onboarding,21/07/2025,Stakeholder Engagement,S10,,
+54,,Design Sync,22/07/2025,Prototype & Implementation,D24,,
+43,,Project Meeting,24/07/2025,Atlas Discourse,M20,,
+64,Individual #6,Stakeholder Onboarding,24/07/2025,Stakeholder Engagement,S11,,
+65,Individual #7,Stakeholder Onboarding,25/07/2025,Stakeholder Engagement,S12,,
+55,,Design Sync,29/07/2025,Prototype & Implementation,D25,,
+66,Group #2,Stakeholder Onboarding,29/07/2025,Stakeholder Engagement,S13,,
+67,Indiviual #8,Stakeholder Onboarding,29/07/2025,Stakeholder Engagement,S14,,
+74,,Project Meeting,31/07/2025,Atlas Discourse,M21,,
+68,Indiviual #9,Stakeholder Onboarding,04/08/2025,Stakeholder Engagement,S15,,
+70,,Design Sync,05/08/2025,Prototype & Implementation,D26,,
+69,Indiviual #10,Stakeholder Onboarding,05/08/2025,Stakeholder Engagement,S16,,
+71,Indiviual #11,Stakeholder Onboarding,05/08/2025,Stakeholder Engagement,S17,,
+72,Group #3,Stakeholder Onboarding,14/08/2025,Stakeholder Engagement,S18,,
+75,,Project Meeting,15/08/2025,Atlas Discourse,M22,M22,Discussed stakeholder onboarding session analysis results.
+73,Group #4,Stakeholder Onboarding,15/08/2025,Stakeholder Engagement,S19,,
+76,,Design Sync,01/10/2025,Prototype & Implementation,D27,,
+77,,Design Sync,15/10/2025,Prototype & Implementation,D28,,
+78,,Design Sync,22/10/2025,Prototype & Implementation,D29,,
