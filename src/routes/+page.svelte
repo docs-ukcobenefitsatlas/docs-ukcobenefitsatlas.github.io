@@ -519,7 +519,7 @@
 		<div class="header-full">
 			<div class="header-copy">
 				<p class="header-label">Project timeline</p>
-				<h2>The UK Co-Benefits Atlas: Behind the Scene</h2>
+				<h2>The UK Co-Benefits Atlas: Behind the Scenes</h2>
 				<p class="header-text">This is the supplementary material for VIS submission #1678. The timeline records four strands of design related activities for the UK Co-Benefits Atlas to contextualize rationales of design decisions. It does not include discussions for writing the paper.</p>
 			</div>
 
